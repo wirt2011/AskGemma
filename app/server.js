@@ -33,16 +33,19 @@ let mongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 let databaseName = "user-account";
 
 app.post('/update-profile', function (req, res) {
+   
    let userObj = req.body;
-
+   console.log("Update Profile userObj: "+userObj);
    MongoClient.connect(mongoUrlLocal, mongoClientOptions, function (err, client) {
      if (err) throw err;
 
      let db = client.db(databaseName);
      userObj['userid'] = 1;
+     console.log("Update Profile userObj: "+userObj);
 
      let myquery = { userid: 1 };
      let newvalues = { $set: userObj };
+     console.log("Update Profile newvalues: "+newvalues);
 
      db.collection("users").updateOne(myquery, newvalues, {upsert: true}, function(err, res) {
        if (err) throw err;
